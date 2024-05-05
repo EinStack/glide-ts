@@ -1,0 +1,28 @@
+{
+	"name": "@einstack/glide",
+	"description": "A minimal Glide client",
+	"license": "Apache-2.0",
+	"version": "0.1.0",
+	"author": "EinStack <contact@einstack.ai>",
+	"keywords": ["einstack", "glide", "llm", "ai"],
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"check": "biome check --apply .",
+		"ci": "biome ci ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.5.3",
+		"typescript": "^5.3.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EinStack/glide-ts.git"
+	},
+	"bugs": {
+		"url": "https://github.com/EinStack/glide-ts/issues"
+	},
+	"homepage": "https://github.com/EinStack/glide-ts#readme"
+}
