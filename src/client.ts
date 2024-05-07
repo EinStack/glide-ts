@@ -1,5 +1,5 @@
-import { type ClientOptions, defaultOptions } from "./config.ts";
-import { Language, type LanguageSvc } from "./language.ts";
+import { type ClientOptions, defaultOptions } from "./config";
+import { Language, type LanguageSvc } from "./language";
 
 /**
  * TODO.

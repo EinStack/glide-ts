@@ -1,4 +1,4 @@
-import type { HttpClient } from "./client.ts";
+import type { HttpClient } from "./client";
 
 /**
  * TODO.

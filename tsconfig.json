@@ -11,16 +11,15 @@
 		// "lib": [],
 
 		/* Modules */
-		"module": "Node16",
-		"moduleResolution": "Node16",
-		"allowImportingTsExtensions": true,
+		// "module": "Node16",
+		"moduleResolution": "Node",
 		"rootDir": "./src",
 		"baseUrl": "./src",
 
 		/* Emit */
 		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
+		// declarationMap": true,
+		// "sourceMap": true,
 		"outDir": "./dist",
 		// "declarationDir": "./",
 		"removeComments": true,

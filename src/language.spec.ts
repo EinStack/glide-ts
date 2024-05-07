@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { equal, ok } from "node:assert";
-import { Client } from "./client.ts";
+import { Client } from "./client";
 
 describe("language service", () => {
 	const router = "myrouter";

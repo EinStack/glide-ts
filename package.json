@@ -9,8 +9,14 @@
 	"repository": "git+https://github.com/EinStack/glide-ts.git",
 	"bugs": "https://github.com/EinStack/glide-ts/issues",
 	"homepage": "https://www.einstack.ai/",
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.cjs"
+	},
 	"scripts": {
-		"build": "tsup",
+		"build": "rimraf ./dist && tsup",
+		"dev": "rimraf ./dist && tsup --watch",
 		"test": "node --import tsx --test ./src/*.spec.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
@@ -21,6 +27,7 @@
 		"@biomejs/biome": "^1.7.3",
 		"@types/node": "^20.12.10",
 		"esbuild": "^0.20.2",
+		"rimraf": "^5.0.5",
 		"tsup": "^8.0.2",
 		"tsx": "^4.9.3",
 		"typescript": "^5.4.5"

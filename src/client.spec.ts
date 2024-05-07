@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { ok } from "node:assert";
-import { Client } from "./client.ts";
+import { Client } from "./client";
 
 describe("client", () => {
 	it("should be default constructable", () => {
