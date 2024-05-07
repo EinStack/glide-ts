@@ -1,28 +1,28 @@
 {
 	"name": "@einstack/glide",
-	"description": "A minimal Glide client",
-	"license": "Apache-2.0",
 	"version": "0.1.0",
-	"author": "EinStack <contact@einstack.ai>",
-	"keywords": ["einstack", "glide", "llm", "ai"],
 	"type": "module",
-	"main": "index.js",
+	"license": "Apache-2.0",
+	"author": "EinStack <contact@einstack.ai>",
+	"keywords": ["llm", "ai", "gateway"],
+	"description": "A minimal Glide client",
+	"repository": "git+https://github.com/EinStack/glide-ts.git",
+	"bugs": "https://github.com/EinStack/glide-ts/issues",
+	"homepage": "https://www.einstack.ai/",
 	"scripts": {
+		"build": "tsup",
+		"test": "node --import tsx --test ./src/*.spec.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --apply .",
 		"ci": "biome ci ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.5.3",
-		"typescript": "^5.3.3"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/EinStack/glide-ts.git"
-	},
-	"bugs": {
-		"url": "https://github.com/EinStack/glide-ts/issues"
-	},
-	"homepage": "https://github.com/EinStack/glide-ts#readme"
+		"@biomejs/biome": "^1.7.3",
+		"@types/node": "^20.12.10",
+		"esbuild": "^0.20.2",
+		"tsup": "^8.0.2",
+		"tsx": "^4.9.3",
+		"typescript": "^5.4.5"
+	}
 }

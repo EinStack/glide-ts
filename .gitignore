@@ -11,7 +11,9 @@ Thumbs.db
 
 # Lang: Typescript
 node_modules/
+tsconfig.tsbuildinfo
 package-lock.json
+deno.lock
 
 # Output
 dist/
