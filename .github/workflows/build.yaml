@@ -25,9 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
           cache: 'npm'
+          cache-dependency-path: ./package.json
 
-      - name: Run Npm:ci
-        run: npm ci
+      - name: Run Npm:install
+        run: npm install
 
       - name: Run Npm:format
         run: npm run format
