@@ -64,6 +64,6 @@ export class Client {
 	 */
 	async health(): Promise<boolean> {
 		// TODO.
-		return true;
+		throw new Error("Not implemented.");
 	}
 }

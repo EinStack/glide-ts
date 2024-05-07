@@ -20,16 +20,16 @@ export interface ChatStream {}
  */
 export interface ErrorResponse {}
 
+/**
+ * TODO.
+ */
 export class GlideError extends Error {
 	constructor() {
 		super();
 	}
 }
 
-/**
- * TODO.
- */
-export type Result<T> = { response: T } | { error: ErrorResponse };
+type Result<T> = { response: T } | { error: ErrorResponse };
 
 /**
  * APIs for `/v1/language` endpoints.
@@ -65,14 +65,17 @@ export class Language implements LanguageSvc {
 	}
 
 	async list(): Promise<unknown[]> {
+		// TODO: list().
 		throw new Error("Not implemented.");
 	}
 
 	async chat(router: string, request: ChatRequest): Promise<ChatResponse> {
+		// TODO: chat().
 		throw new Error("Not implemented.");
 	}
 
 	async chatStream(router: string, callbacks: ChatStream): Promise<void> {
+		// TODO: chatStream().
 		throw new Error("Not implemented.");
 	}
 }
