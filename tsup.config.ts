@@ -6,7 +6,6 @@ export default defineConfig({
 	target: "node18",
 
 	dts: true,
-
 	treeshake: true,
 	bundle: false,
 });

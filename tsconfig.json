@@ -18,8 +18,6 @@
 
 		/* Emit */
 		"declaration": true,
-		// declarationMap": true,
-		// "sourceMap": true,
 		"outDir": "./dist",
 		// "declarationDir": "./",
 		"removeComments": true,
@@ -31,8 +29,6 @@
 
 		/* Type Checking */
 		"strict": true,
-
-		/* Completeness */
 		"skipLibCheck": true
 	}
 }

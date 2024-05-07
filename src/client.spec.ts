@@ -7,6 +7,9 @@ describe("client", () => {
 		const client = new Client();
 		ok(client.baseUrl);
 		ok(client.userAgent);
+
+		// TODO.
+		// console.log(process.env);
 	});
 
 	it("should be constructable", () => {

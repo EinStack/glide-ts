@@ -1,4 +1,4 @@
-import { type ClientOptions, defaultOptions } from "./config";
+import { type ClientOptions, tryEnvVariables } from "./config";
 import { Language, type LanguageSvc } from "./language";
 
 /**
@@ -23,9 +23,11 @@ export class Client {
 	 * @link https://www.einstack.ai/
 	 */
 	constructor(options?: ClientOptions) {
-		this.#apiKey = options?.apiKey || null;
-		this.#baseUrl = options?.baseUrl || defaultOptions.baseUrl;
-		this.#userAgent = options?.userAgent || defaultOptions.userAgent;
+		const env = tryEnvVariables();
+
+		this.#apiKey = options?.apiKey || env.apiKey;
+		this.#baseUrl = options?.baseUrl || env.baseUrl;
+		this.#userAgent = options?.userAgent || env.userAgent;
 		this.#language = new Language(this);
 	}
 

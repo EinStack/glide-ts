@@ -17,7 +17,7 @@ export interface ClientOptions {
 	/**
 	 * Attaches an `api key`.
 	 */
-	apiKey?: string;
+	apiKey?: string | null;
 
 	/**
 	 * Overrides default `base url`:
@@ -32,10 +32,27 @@ export interface ClientOptions {
 	userAgent?: string;
 }
 
-/**
- * TODO.
- */
-export const defaultOptions = {
-	baseUrl: "http://127.0.0.1:9099/",
-	userAgent: `Glide/${clientVersion} (TS; Ver. ${runtimeVersion})`,
+export const tryEnvVariables = (): Required<ClientOptions> => {
+	const defaultClientOptions: Required<ClientOptions> = {
+		apiKey: null,
+		baseUrl: "http://127.0.0.1:9099/",
+		userAgent: `Glide/${clientVersion} (TS; Ver. ${runtimeVersion})`,
+	};
+
+	const variables: Record<string, unknown> = (globalThis as any).process?.env;
+	if (!variables) return defaultClientOptions;
+
+	if (typeof variables["GLIDE_API_KEY"] === "string") {
+		defaultClientOptions.apiKey = variables["GLIDE_API_KEY"];
+	}
+
+	if (typeof variables["GLIDE_BASE_URL"] === "string") {
+		defaultClientOptions.baseUrl = variables["GLIDE_BASE_URL"];
+	}
+
+	if (typeof variables["GLIDE_USER_AGENT"] === "string") {
+		defaultClientOptions.apiKey = variables["GLIDE_USER_AGENT"];
+	}
+
+	return defaultClientOptions;
 };
