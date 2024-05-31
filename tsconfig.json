@@ -19,7 +19,6 @@
 		/* Emit */
 		"declaration": true,
 		"outDir": "./dist",
-		// "declarationDir": "./",
 		"removeComments": true,
 
 		/* Interop Constraints */

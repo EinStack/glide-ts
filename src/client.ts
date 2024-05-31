@@ -1,10 +1,5 @@
-import { type ClientOptions, tryEnvVariables } from "./config";
+import { ClientConfig, type ClientOptions } from "./config";
 import { Language, type LanguageSvc } from "./language";
-
-/**
- * TODO.
- */
-export interface HttpClient {}
 
 /**
  * A minimal `EinStack` `Glide` client.
@@ -12,44 +7,46 @@ export interface HttpClient {}
  * @link https://www.einstack.ai/
  */
 export class Client {
-	readonly #apiKey: string | null;
-	readonly #baseUrl: string | URL;
-	readonly #userAgent: string;
+	readonly #config: ClientConfig;
 	readonly #language: LanguageSvc;
 
 	/**
 	 * Constructs a new `EinStack` `Glide` client.
 	 *
+	 * @param options Client options, override environment variables.
+	 *
 	 * @link https://www.einstack.ai/
 	 */
 	constructor(options?: ClientOptions) {
-		const env = tryEnvVariables();
-
-		this.#apiKey = options?.apiKey || env.apiKey;
-		this.#baseUrl = options?.baseUrl || env.baseUrl;
-		this.#userAgent = options?.userAgent || env.userAgent;
-		this.#language = new Language(this);
+		this.#config = new ClientConfig();
+		this.#language = new Language(this.#config);
 	}
 
 	/**
 	 * Returns the provided `API key`.
+	 *
+	 * Use `ClientOption` or env variable `GLIDE_API_KEY` to override.
 	 */
 	get apiKey(): string | null {
-		return this.#apiKey;
+		return this.#config.apiKey;
 	}
 
 	/**
 	 * Returns the used base `URL`.
+	 *
+	 * Use `ClientOption` or env variable `GLIDE_BASE_URL` to override.
 	 */
-	get baseUrl(): string {
-		return this.#baseUrl.toString();
+	get baseUrl(): URL {
+		return this.#config.baseUrl;
 	}
 
 	/**
 	 * Returns the used `User-Agent` header value.
+	 *
+	 * Use `ClientOption` or env variable `GLIDE_USER_AGENT` to override.
 	 */
 	get userAgent(): string {
-		return this.#userAgent;
+		return this.#config.userAgent;
 	}
 
 	/**
@@ -63,9 +60,14 @@ export class Client {
 	 * Returns `true` if the service is healthy.
 	 *
 	 * `GET /v1/health`
+	 *
+	 * @throws GlideError
 	 */
 	async health(): Promise<boolean> {
-		// TODO.
-		throw new Error("Not implemented.");
+		const response = await this.#config.fetch<{
+			healthy: boolean;
+		}>("GET", "/v1/health");
+
+		return response.healthy;
 	}
 }

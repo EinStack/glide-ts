@@ -1,4 +1,4 @@
-import type { HttpClient } from "./client";
+import { ClientConfig } from "./config";
 
 /**
  * TODO.
@@ -58,23 +58,35 @@ export interface LanguageSvc {
 }
 
 export class Language implements LanguageSvc {
-	#client: HttpClient;
+	#client: ClientConfig;
 
-	constructor(client: HttpClient) {
+	/**
+	 * TODO.
+	 *
+	 * @param client
+	 */
+	constructor(client: ClientConfig) {
 		this.#client = client;
 	}
 
 	async list(): Promise<unknown[]> {
-		// TODO: list().
+		const path = "/v1/list";
+		const _ = await this.#client.fetch("GET", path);
 		throw new Error("Not implemented.");
 	}
 
-	async chat(router: string, request: ChatRequest): Promise<ChatResponse> {
+	async chat(router: string, data: ChatRequest): Promise<ChatResponse> {
+		const path = `/v1/language/${router}/chat`;
+		const _ = await this.#client.fetch("POST", path, data);
+
 		// TODO: chat().
 		throw new Error("Not implemented.");
 	}
 
 	async chatStream(router: string, callbacks: ChatStream): Promise<void> {
+		const path = `/v1/language/${router}/chatStream`;
+		const _ = await this.#client.fetch("GET", path);
+
 		// TODO: chatStream().
 		throw new Error("Not implemented.");
 	}

@@ -1,3 +1,5 @@
+import {ErrorResponse, GlideError} from "./error";
+
 /**
  * The current version of this client.
  */
@@ -14,45 +16,104 @@ export const runtimeVersion = "16.0";
  * TODO.
  */
 export interface ClientOptions {
-	/**
-	 * Attaches an `api key`.
-	 */
-	apiKey?: string | null;
+    /**
+     * Attaches an optional `API key`.
+     */
+    apiKey?: string | null;
 
-	/**
-	 * Overrides default `base url`:
-	 * `http://127.0.0.1:9099/`.
-	 */
-	baseUrl?: string | URL;
+    /**
+     * Overrides the default `base url`:
+     * `http://127.0.0.1:9099/`.
+     */
+    baseUrl?: string | URL;
 
-	/**
-	 * Overrides default `User-Agent` header:
-	 * `Glide/0.1.0 (TS; Ver. 16.0)`
-	 */
-	userAgent?: string;
+    /**
+     * Overrides the default `User-Agent` header:
+     * `Glide/0.1.0 (TS; Ver. 16.0)`
+     */
+    userAgent?: string;
 }
 
-export const tryEnvVariables = (): Required<ClientOptions> => {
-	const defaultClientOptions: Required<ClientOptions> = {
-		apiKey: null,
-		baseUrl: "http://127.0.0.1:9099/",
-		userAgent: `Glide/${clientVersion} (TS; Ver. ${runtimeVersion})`,
-	};
+/**
+ * TODO.
+ */
+export function tryEnvironment(): Required<ClientOptions> {
+    const options: Required<ClientOptions> = {
+        apiKey: null,
+        baseUrl: "http://127.0.0.1:9099/",
+        userAgent: `Glide/${clientVersion} (TS; Ver. ${runtimeVersion})`,
+    };
 
-	const variables: Record<string, unknown> = (globalThis as any).process?.env;
-	if (!variables) return defaultClientOptions;
+    const env = (globalThis as any).process?.env;
+    if (typeof env !== "object" && env !== null) {
+        return options;
+    }
 
-	if (typeof variables["GLIDE_API_KEY"] === "string") {
-		defaultClientOptions.apiKey = variables["GLIDE_API_KEY"];
-	}
+    if (typeof env["GLIDE_API_KEY"] === "string") {
+        options.apiKey = env["GLIDE_API_KEY"];
+    }
 
-	if (typeof variables["GLIDE_BASE_URL"] === "string") {
-		defaultClientOptions.baseUrl = variables["GLIDE_BASE_URL"];
-	}
+    if (typeof env["GLIDE_BASE_URL"] === "string") {
+        options.baseUrl = env["GLIDE_BASE_URL"];
+    }
 
-	if (typeof variables["GLIDE_USER_AGENT"] === "string") {
-		defaultClientOptions.apiKey = variables["GLIDE_USER_AGENT"];
-	}
+    if (typeof env["GLIDE_USER_AGENT"] === "string") {
+        options.apiKey = env["GLIDE_USER_AGENT"];
+    }
 
-	return defaultClientOptions;
-};
+    return options;
+}
+
+/**
+ * TODO.
+ */
+export class ClientConfig {
+    readonly apiKey: string | null;
+    readonly baseUrl: URL;
+    readonly userAgent: string;
+
+    /**
+     * Instantiates a new ClientConfig with provided options.
+     */
+    constructor(options?: ClientOptions) {
+        const env = tryEnvironment();
+        this.apiKey = options?.apiKey || env.apiKey;
+        this.baseUrl = new URL(options?.baseUrl || env.baseUrl);
+        this.userAgent = options?.userAgent || env.userAgent;
+    }
+
+    /**
+     * TODO.
+     *
+     * @throws GlideError
+     */
+    async fetch<T = unknown>(
+        method: string,
+        path: string,
+        data?: unknown,
+    ): Promise<T> {
+        const input = new URL(path, this.baseUrl);
+        const headers = new Headers({
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            userAgent: this.userAgent,
+        });
+
+        if (this.apiKey !== null) {
+            headers.set("Authorization", "Bearer " + this.apiKey);
+        }
+
+        const response = await fetch(input, {
+            body: JSON.stringify(data),
+            method,
+            headers,
+        });
+
+        if (response.ok) {
+            return (await response.json()) as T;
+        } else {
+            const content = (await response.json()) as ErrorResponse;
+            throw new GlideError(content, response.status);
+        }
+    }
+}
