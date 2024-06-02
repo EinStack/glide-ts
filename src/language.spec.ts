@@ -1,6 +1,7 @@
 import { describe, it } from "node:test";
-import { equal, ok } from "node:assert";
-import { GlideClient } from "./client";
+import { ok } from "node:assert";
+import type { ChatRequest, ChatStream } from "./index";
+import { GlideClient } from "./index";
 
 describe("language service", () => {
 	const router = "myrouter";
@@ -12,19 +13,27 @@ describe("language service", () => {
 
 	it("should correctly list routers", async () => {
 		const client = new GlideClient();
-		const routers = await client.language.list();
-		equal(routers.length, 1);
+		const routerList = await client.language.list();
+		ok(routerList.routers.length > 1);
 	});
 
 	it("should correctly chat", async () => {
 		const client = new GlideClient();
-		const request = {};
+		const request: ChatRequest = {
+			message: {
+				content: "Hello there!",
+				role: "user",
+			},
+		};
+
 		const response = await client.language.chat(router, request);
+		ok(response.model_response);
+		ok(response.model_response.message);
 	});
 
 	it("should correctly stream chat", async () => {
 		const client = new GlideClient();
-		const callbacks = {};
+		const callbacks: ChatStream = {};
 		await client.language.chatStream(router, callbacks);
 	});
 });

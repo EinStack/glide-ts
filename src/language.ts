@@ -1,35 +1,10 @@
-import { ClientConfig } from "./config";
-
-/**
- * TODO.
- */
-export interface ChatRequest {}
-
-/**
- * TODO.
- */
-export interface ChatResponse {}
-
-/**
- * TODO.
- */
-export interface ChatStream {}
-
-/**
- * TODO.
- */
-export interface ErrorResponse {}
-
-/**
- * TODO.
- */
-export class GlideError extends Error {
-	constructor() {
-		super();
-	}
-}
-
-type Result<T> = { response: T } | { error: ErrorResponse };
+import type { ClientConfig } from "./config";
+import type {
+	ChatRequest,
+	ChatResponse,
+	ChatStream,
+	RouterConfigs,
+} from "./language.type";
 
 /**
  * APIs for `/v1/language` endpoints.
@@ -40,7 +15,7 @@ export interface Language {
 	 *
 	 * `GET /v1/language`
 	 */
-	list(): Promise<unknown[]>;
+	list(): Promise<RouterConfigs>;
 
 	/**
 	 * Sends a single chat request to a specified router and retrieves the response.
@@ -60,27 +35,17 @@ export interface Language {
 export class LanguageService implements Language {
 	#client: ClientConfig;
 
-	/**
-	 * TODO.
-	 *
-	 * @param client
-	 */
 	constructor(client: ClientConfig) {
 		this.#client = client;
 	}
 
-	async list(): Promise<unknown[]> {
-		const path = "/v1/list";
-		const _ = await this.#client.fetch("GET", path);
-		throw new Error("Not implemented.");
+	async list(): Promise<RouterConfigs> {
+		return await this.#client.fetch<RouterConfigs>("GET", "/v1/list");
 	}
 
 	async chat(router: string, data: ChatRequest): Promise<ChatResponse> {
 		const path = `/v1/language/${router}/chat`;
-		const _ = await this.#client.fetch("POST", path, data);
-
-		// TODO: chat().
-		throw new Error("Not implemented.");
+		return await this.#client.fetch<ChatResponse>("POST", path, data);
 	}
 
 	async chatStream(router: string, callbacks: ChatStream): Promise<void> {

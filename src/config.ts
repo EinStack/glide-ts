@@ -1,4 +1,4 @@
-import { ErrorResponse, GlideError } from "./error";
+import { type ErrorResponse, GlideError } from "./error";
 
 /**
  * The current version of this client.
@@ -51,20 +51,20 @@ export function tryEnvironment(): Required<GlideClientOptions> {
 	};
 
 	const env = (globalThis as any).process?.env;
-	if (typeof env !== "object" && env !== null) {
+	if (typeof env !== "object" || env === null) {
 		return options;
 	}
 
-	if (typeof env["GLIDE_API_KEY"] === "string") {
-		options.apiKey = env["GLIDE_API_KEY"];
+	if (typeof env.GLIDE_API_KEY === "string") {
+		options.apiKey = env.GLIDE_API_KEY;
 	}
 
-	if (typeof env["GLIDE_BASE_URL"] === "string") {
-		options.baseUrl = env["GLIDE_BASE_URL"];
+	if (typeof env.GLIDE_BASE_URL === "string") {
+		options.baseUrl = env.GLIDE_BASE_URL;
 	}
 
-	if (typeof env["GLIDE_USER_AGENT"] === "string") {
-		options.apiKey = env["GLIDE_USER_AGENT"];
+	if (typeof env.GLIDE_USER_AGENT === "string") {
+		options.apiKey = env.GLIDE_USER_AGENT;
 	}
 
 	return options;
@@ -89,7 +89,7 @@ export class ClientConfig {
 	}
 
 	/**
-	 * TODO.
+	 * Sends serialized and requests and returns deserialized response.
 	 *
 	 * @throws GlideError
 	 */
@@ -106,7 +106,7 @@ export class ClientConfig {
 		});
 
 		if (this.apiKey !== null) {
-			headers.set("Authorization", "Bearer " + this.apiKey);
+			headers.set("Authorization", `Bearer ${this.apiKey}`);
 		}
 
 		const response = await fetch(input, {
@@ -117,9 +117,9 @@ export class ClientConfig {
 
 		if (response.ok) {
 			return (await response.json()) as T;
-		} else {
-			const content = (await response.json()) as ErrorResponse;
-			throw new GlideError(content, response.status);
 		}
+
+		const content = (await response.json()) as ErrorResponse;
+		throw new GlideError(content, response.status);
 	}
 }
