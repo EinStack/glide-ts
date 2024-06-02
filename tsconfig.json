@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		/* Visit https://aka.ms/tsconfig to read more about this file */
+
+		/* Projects */
+		// "incremental": true,
+		// "composite": true,
+
+		/* Language and Environment */
+		"target": "ESNext",
+		// "lib": [],
+
+		/* Modules */
+		// "module": "Node16",
+		"moduleResolution": "Node",
+		"rootDir": "./src",
+		"baseUrl": "./src",
+
+		/* Emit */
+		"declaration": true,
+		"outDir": "./dist",
+		"removeComments": true,
+
+		/* Interop Constraints */
+		// "isolatedModules": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		/* Type Checking */
+		"strict": true,
+		"skipLibCheck": true
+	}
+}

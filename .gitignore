@@ -1,7 +1,6 @@
 # OS
 Thumbs.db
 .DS_Store
-*.pdb
 
 # Editors
 .vs/
@@ -11,6 +10,8 @@ Thumbs.db
 
 # Lang: Typescript
 node_modules/
+tsconfig.tsbuildinfo
+package-lock.json
 
 # Output
 dist/

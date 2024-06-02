@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        version: [ 20 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.version }}
+          cache: 'npm'
+          cache-dependency-path: ./package.json
+
+      - name: Run Npm:install
+        run: npm install
+
+      - name: Run Npm:format
+        run: npm run format
+
+      - name: Run Npm:lint
+        run: npm run lint
+
+      - name: Run Npm:test
+        run: npm run test
