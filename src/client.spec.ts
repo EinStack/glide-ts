@@ -1,17 +1,17 @@
 import { describe, it } from "node:test";
 import { ok } from "node:assert";
-import { Client } from "./client";
+import { GlideClient } from "./client";
 
 describe("client", () => {
 	it("should be constructable without options", () => {
-		const client = new Client();
+		const client = new GlideClient();
 
 		ok(client.baseUrl);
 		ok(client.userAgent);
 	});
 
 	it("should be constructable with options", () => {
-		const client = new Client({
+		const client = new GlideClient({
 			apiKey: "testing",
 			userAgent: "Einstack/1.0",
 		});
@@ -22,7 +22,7 @@ describe("client", () => {
 	});
 
 	it("should be healthy", async () => {
-		const client = new Client();
+		const client = new GlideClient();
 		const healthy = await client.health();
 
 		ok(healthy);

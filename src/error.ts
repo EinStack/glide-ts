@@ -1,5 +1,5 @@
 /**
- * Error that may occur during the processing of API request.
+ * Payload of the client (400-499) or server (500-599) error.
  */
 export interface ErrorResponse {
 	name: string;

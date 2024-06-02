@@ -1,7 +1,9 @@
-export { Client } from "./client";
+export { type GlideClientOptions } from "./config";
+export { GlideClient } from "./client";
 export { GlideError } from "./error";
+
 export type {
-	LanguageSvc,
+	Language,
 	ChatRequest,
 	ChatResponse,
 	ChatStream,

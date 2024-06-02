@@ -34,7 +34,7 @@ type Result<T> = { response: T } | { error: ErrorResponse };
 /**
  * APIs for `/v1/language` endpoints.
  */
-export interface LanguageSvc {
+export interface Language {
 	/**
 	 * Retrieves a list of all router configs.
 	 *
@@ -57,7 +57,7 @@ export interface LanguageSvc {
 	chatStream(router: string, callbacks: ChatStream): Promise<void>;
 }
 
-export class Language implements LanguageSvc {
+export class LanguageService implements Language {
 	#client: ClientConfig;
 
 	/**
